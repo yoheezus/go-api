@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/domgoodwin/go-api/app/bundles/db"
 )
 
 // Controller handle all base methods
@@ -24,4 +26,14 @@ func (c *Controller) SendJSON(w http.ResponseWriter, r *http.Request, v interfac
 		w.WriteHeader(code)
 		io.WriteString(w, string(b))
 	}
+}
+
+// Index func return all devices in database
+func (c *Controller) ListTables(w http.ResponseWriter, r *http.Request) {
+	c.SendJSON(
+		w,
+		r,
+		db.ListTables(),
+		http.StatusOK,
+	)
 }

@@ -7,11 +7,10 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
-type Db struct{}
-
-func (d *Db) List() {
+func ListTables() []*string {
 	// Initialize a session in us-west-2 that the SDK will use to load
 	// credentials from the shared credentials file ~/.aws/credentials.
 	sess, err := session.NewSession(&aws.Config{
@@ -37,5 +36,44 @@ func (d *Db) List() {
 	}
 
 	fmt.Println("")
-	return "fin"
+
+	return result.TableNames
+}
+
+func PutItem(table string, item interface{}) string {
+	// Initialize a session in us-west-2 that the SDK will use to load
+	// credentials from the shared credentials file ~/.aws/credentials.
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("eu-west-2")},
+	)
+
+	// Create DynamoDB client
+	svc := dynamodb.New(sess)
+	av, err := dynamodbattribute.MarshalMap(item)
+
+	if err != nil {
+		fmt.Println("Got error marshalling map:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	// Create item in table Movies
+	input := &dynamodb.PutItemInput{
+		Item:      av,
+		TableName: aws.String(table),
+	}
+
+	_, err = svc.PutItem(input)
+
+	if err != nil {
+		fmt.Println("Got error calling PutItem:")
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	msg := "Successfully added item to " + table
+
+	fmt.Println(msg)
+
+	return msg
 }
