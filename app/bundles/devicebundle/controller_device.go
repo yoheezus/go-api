@@ -3,7 +3,7 @@ package devicebundle
 import (
 	"net/http"
 
-	"github.com/domgoodwin/go-api/app/common"
+	"github.com/domgoodwin/go-api/app/bundles/common"
 )
 
 // KittiesController struct
