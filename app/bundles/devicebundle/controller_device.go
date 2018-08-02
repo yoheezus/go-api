@@ -9,7 +9,7 @@ import (
 	"github.com/domgoodwin/go-api/app/bundles/db"
 )
 
-// KittiesController struct
+// DeviceController struct
 type DeviceController struct {
 	common.Controller
 }
@@ -24,7 +24,7 @@ func (c *DeviceController) Index(w http.ResponseWriter, r *http.Request) {
 	)
 }
 
-// Index func return all devices in database
+// Create func return all devices in database
 func (c *DeviceController) Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(json.NewDecoder(r.Body))
 	res := db.PutItem("home-devices", NewDevice("hello", "world", "indeed"))

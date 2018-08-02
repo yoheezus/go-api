@@ -7,7 +7,7 @@ type Device struct {
 	PublicIP  string `json:"publicIP"`
 }
 
-// Create a new device
+// NewDevice Create a new device
 func NewDevice(hostName string, privIP string, pubIP string) *Device {
 	return &Device{
 		Hostname:  hostName,
