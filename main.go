@@ -18,6 +18,8 @@ func main() {
 	s.HandleFunc("/device", kc.Index).Methods("GET")
 	s.HandleFunc("/device", kc.Create).Methods("POST")
 	s.HandleFunc("/db/tables", kc.ListTables).Methods("GET")
+	s.HandleFunc("/r/records/{id}", kc.GetRecords).Methods("GET")
+	s.HandleFunc("/r/records", kc.UpdateRecordSet).Methods("POST")
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
