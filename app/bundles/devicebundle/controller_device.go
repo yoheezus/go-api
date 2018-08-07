@@ -39,7 +39,7 @@ func (c *DeviceController) Create(w http.ResponseWriter, r *http.Request) {
 	)
 }
 
-// Get record sets
+// GetRecords returns records sets of supplied id
 func (c *DeviceController) GetRecords(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	res := r53.GetRecordSets(vars["id"])
@@ -51,7 +51,7 @@ func (c *DeviceController) GetRecords(w http.ResponseWriter, r *http.Request) {
 	)
 }
 
-// Get record sets
+// UpdateRecordSet sets record values and type of supplied domain
 func (c *DeviceController) UpdateRecordSet(w http.ResponseWriter, r *http.Request) {
 	var rs r53.RecordSet
 	if r.Body == nil {
