@@ -1,9 +1,10 @@
 # go-api
-Golang API 
+
+Golang API  
 
 ## Building the image
 
-```docker build -t go-api .```
+```docker build -t go-ap```
 
 
 ## Running the image
