@@ -1,12 +1,10 @@
-FROM golang:1.8
+FROM arm32v7/golang:1.8
 
-WORKDIR   src/github.com/domgoodwin/go-api
+WORKDIR /go-api
 COPY . .
 
-
 RUN go get -d -v ./...
-RUN go install -v ./...
+#RUN go install -v ./...
+RUN go build 
 
-EXPOSE 8080:8080
-
-CMD ["go-api"]
+CMD ["./go-api"]
