@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
+
+	"github.com/domgoodwin/go-api/app/bundles/prime"
 
 	"github.com/gorilla/mux"
 
@@ -31,6 +34,24 @@ func (c *DeviceController) Index(w http.ResponseWriter, r *http.Request) {
 func (c *DeviceController) Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(json.NewDecoder(r.Body))
 	res := db.PutItem("home-devices", NewDevice("hello", "world", "indeed"))
+	c.SendJSON(
+		w,
+		r,
+		res,
+		http.StatusOK,
+	)
+}
+
+// NextPrime gets next prime number
+func (c *DeviceController) NextPrime(w http.ResponseWriter, r *http.Request) {
+	vals := r.URL.Query()
+	curs, ok := vals["cur"]
+	cur, err := strconv.ParseInt(curs[0], 10, 64)
+	fmt.Println("Getting next prime on from: " + strconv.Itoa(int(cur)))
+	res := int64(0)
+	if ok && err == nil {
+		res = prime.GetNextPrime(cur)
+	}
 	c.SendJSON(
 		w,
 		r,
