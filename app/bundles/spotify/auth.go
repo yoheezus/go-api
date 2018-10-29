@@ -2,7 +2,6 @@ package spotify
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -53,10 +52,5 @@ func RequestAuthenticationToken() (Auth, error) {
 		return Auth{}, err
 	}
 
-	fmt.Println(sauth.AccessToken)
-	fmt.Println(sauth.ExpiresIn)
-	fmt.Println(sauth.TokenType)
-
 	return sauth, nil
-
 }
