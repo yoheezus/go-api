@@ -1,9 +1,13 @@
 package prime
 
-import "os"
+import (
+	"os"
+	"time"
+)
 
 // GetNextPrime gets the next prime after the given number
 func GetNextPrime(cur int64) int64 {
+	time.Sleep(10000 * time.Millisecond)
 	if _, err := os.Stat("/tmp/stop"); err == nil {
 		print("Not replying as stopping soon")
 		return 0
