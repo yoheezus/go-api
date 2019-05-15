@@ -1,4 +1,5 @@
-FROM arm32v7/golang:1.8
+#FROM arm32v7/golang:1.8
+FROM golang:latest
 
 WORKDIR /go-api
 COPY . .

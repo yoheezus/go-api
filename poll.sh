@@ -1,7 +1,7 @@
 #!/bin/bash
 
-curn=2
+curn=366923
 while true; do
-    curn=$(curl -sb -X GET "http://localhost:8080/api/v1/prime?cur=$curn")
+    curn=$(curl -sb -X GET "http://home.domgoodw.in/api/prime?cur=$curn")
     echo $curn
 done
