@@ -5,6 +5,9 @@ import "os"
 // GetNextPrime gets the next prime after the given number
 func GetNextPrime(cur int64) int64 {
 	if _, err := os.Stat("/tmp/stop"); err == nil {
+		print("Not replying as stopping soon")
+		return 0
+	} else if os.IsNotExist(err) {
 		next := cur + 2
 		if cur == 2 {
 			next = cur + 1
@@ -20,9 +23,8 @@ func GetNextPrime(cur int64) int64 {
 			trynum++
 		}
 		return next
-
-	} else if os.IsNotExist(err) {
-		return 99999
+	} else {
+		panic(err)
 	}
 	return -1
 }
