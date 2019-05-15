@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/domgoodwin/go-api/app/bundles/devicebundle"
-
 	"github.com/gorilla/mux"
 )
 
@@ -16,8 +20,18 @@ func check(e error) {
 }
 
 func main() {
+	var gracefulStop = make(chan os.Signal)
+	signal.Notify(gracefulStop, syscall.SIGTERM)
+	signal.Notify(gracefulStop, syscall.SIGINT)
 	// Controllers declaration
 	kc := &devicebundle.DeviceController{}
+	go func() {
+		sig := <-gracefulStop
+		fmt.Printf("caught sig: %+v", sig)
+		fmt.Println("Wait for 20 second to finish processing")
+		time.Sleep(20 * time.Second)
+		os.Exit(0)
+	}()
 	r := mux.NewRouter()
 	s := r.PathPrefix("/api/v1/").Subrouter()
 	// Routes handling
