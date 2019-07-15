@@ -13,6 +13,7 @@ import (
 	"github.com/domgoodwin/go-api/app/bundles/common"
 	"github.com/domgoodwin/go-api/app/bundles/db"
 	"github.com/domgoodwin/go-api/app/bundles/r53"
+	"github.com/domgoodwin/go-api/app/bundles/wait"
 )
 
 // DeviceController struct
@@ -51,6 +52,29 @@ func (c *DeviceController) NextPrime(w http.ResponseWriter, r *http.Request) {
 	res := int64(0)
 	if ok && err == nil {
 		res = prime.GetNextPrime(cur)
+	}
+	c.SendJSON(
+		w,
+		r,
+		res,
+		http.StatusOK,
+	)
+}
+
+// GetRandom gets next prime number
+func (c *DeviceController) Wait(w http.ResponseWriter, r *http.Request) {
+	vals := r.URL.Query()
+	dur, ok := vals["time"]
+	res := int64(0)
+	if !ok || len(dur[0]) < 1 {
+		fmt.Println("Waiting random time 0<X<30")
+		res = wait.WaitDurationRandom()
+	} else {
+		duration, err := strconv.ParseInt(dur[0], 10, 64)
+		if err == nil {
+			fmt.Println("Waiting fixed time of : " + strconv.Itoa(int(duration)))
+			res = wait.WaitDurationFixed(duration)
+		}
 	}
 	c.SendJSON(
 		w,

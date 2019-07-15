@@ -36,6 +36,7 @@ func main() {
 	s := r.PathPrefix("/api/v1/").Subrouter()
 	// Routes handling
 	s.HandleFunc("/prime", kc.NextPrime).Methods("GET")
+	s.HandleFunc("/wait", kc.Wait).Methods("GET")
 	s.HandleFunc("/device", kc.Index).Methods("GET")
 	s.HandleFunc("/device", kc.Create).Methods("POST")
 	s.HandleFunc("/db/tables", kc.ListTables).Methods("GET")
