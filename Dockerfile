@@ -5,7 +5,7 @@ RUN apk add --no-cache git
 
 RUN adduser -D -g '' appuser
 
-WORKDIR $GOPATH/src/github.com/go-api/
+WORKDIR $GOPATH/src/github.com/domgoodwin/go-api/
 COPY . .
 
 # Using go get.
