@@ -3,7 +3,7 @@ FROM golang:1.12-alpine AS builder
 
 RUN apk add --no-cache git
 
-RUN adduser -D -g '' appuser
+RUN adduser -D -u 1000 appuser
 
 WORKDIR $GOPATH/src/github.com/domgoodwin/go-api/
 COPY . .
@@ -19,7 +19,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 
 COPY --from=builder /go/bin/go-api /go/bin/go-api
 
-USER appuser
+USER 1000
 
 EXPOSE 8080
 
