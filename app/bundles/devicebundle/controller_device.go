@@ -3,6 +3,7 @@ package devicebundle
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -110,6 +111,43 @@ func (c *DeviceController) UpdateRecordSet(w http.ResponseWriter, r *http.Reques
 	}
 	println(rs.HostedZoneId)
 	res := r53.UpdateRecordSet(rs)
+	c.SendJSON(
+		w,
+		r,
+		res,
+		http.StatusOK,
+	)
+}
+
+type outboundReq struct {
+	Count int
+	Addr  string
+}
+
+// SendOutbound sends n outbounds requests
+func (c *DeviceController) SendOutbound(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		http.Error(w, "Please send a request body", 400)
+		return
+	}
+	defer r.Body.Close()
+	bodyBytes, err := ioutil.ReadAll(r.Body)
+	bodyString := string(bodyBytes)
+	fmt.Println(bodyString)
+	req := outboundReq{}
+	err = json.Unmarshal([]byte(bodyString), &req)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	fmt.Println(req)
+	addr := req.Addr
+	num := req.Count
+	for i := 0; i < num; i++ {
+		resp, _ := http.Get(addr)
+		fmt.Println(resp)
+	}
+	res := "You better work bitch"
 	c.SendJSON(
 		w,
 		r,

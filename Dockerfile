@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 #FROM arm32v7/golang:1.8
+=======
+# FROM arm32v7/golang:1.8
+>>>>>>> Stashed changes
 FROM golang:1.12-alpine AS builder
 
 RUN apk add --no-cache git
@@ -22,5 +26,7 @@ COPY --from=builder /go/bin/go-api /go/bin/go-api
 USER 1000
 
 EXPOSE 8080
+
+LABEL version="2.1.0" maintainer="d0m182goodwin@gmail.com"
 
 ENTRYPOINT ["/go/bin/go-api"]
