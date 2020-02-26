@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 #FROM arm32v7/golang:1.8
-=======
-# FROM arm32v7/golang:1.8
->>>>>>> Stashed changes
 FROM golang:1.12-alpine AS builder
 
 RUN apk add --no-cache git

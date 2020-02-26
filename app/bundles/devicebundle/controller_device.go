@@ -155,3 +155,40 @@ func (c *DeviceController) SendOutbound(w http.ResponseWriter, r *http.Request) 
 		http.StatusOK,
 	)
 }
+
+type payloadReq struct {
+	Size int64
+	Wait int64
+}
+
+// HandlePayload Returns payload of size supplied
+func (c *DeviceController) HandlePayload(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		http.Error(w, "Please send a request body", 400)
+		return
+	}
+	defer r.Body.Close()
+	bodyBytes, err := ioutil.ReadAll(r.Body)
+	bodyString := string(bodyBytes)
+	fmt.Println(bodyString)
+	req := payloadReq{}
+	err = json.Unmarshal([]byte(bodyString), &req)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+	fmt.Println(req)
+	size := req.Size
+	waitDur := req.Wait
+	resp := ""
+	wait.WaitDurationFixed(waitDur)
+	for i := int64(0); i < size; i++ {
+		resp += "A"
+	}
+	c.SendJSON(
+		w,
+		r,
+		resp,
+		http.StatusOK,
+	)
+}

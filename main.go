@@ -50,6 +50,7 @@ func main() {
 	s.HandleFunc("/r/records/{id}", kc.GetRecords).Methods("GET")
 	s.HandleFunc("/r/records", kc.UpdateRecordSet).Methods("POST")
 	s.HandleFunc("/test/outbound", kc.SendOutbound).Methods("POST")
+	s.HandleFunc("/test/payload", kc.HandlePayload).Methods("POST")
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
