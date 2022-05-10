@@ -195,5 +195,5 @@ func (c *DeviceController) HandlePayload(w http.ResponseWriter, r *http.Request)
 
 // Implement Teapot request 418 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418
 func (c *DeviceController) Teapot(w http.ResponseWriter, r *http.Request) {
-	c.SendJSON(w, r, "Hello!", http.StatusOK)
+	c.SendJSON(w, r, "I'm Teapot", http.StatusTeapot)
 }
