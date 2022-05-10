@@ -51,6 +51,7 @@ func main() {
 	s.HandleFunc("/r/records", kc.UpdateRecordSet).Methods("POST")
 	s.HandleFunc("/test/outbound", kc.SendOutbound).Methods("POST")
 	s.HandleFunc("/test/payload", kc.HandlePayload).Methods("POST")
-	http.Handle("/", r)
+	// Teapot function here
+	s.HandleFunc("/teapot", kc.Teapot).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
